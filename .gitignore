@@ -1,0 +1,7 @@
+# Ignore .vscode conf files
+.vscode
+# Ignore object files
+obj/*.o 
+# Ignore executable file
+bin/*
+!bin/.gitkeep 
