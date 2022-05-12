@@ -19,7 +19,7 @@
 # Building
 The Makefile file should be able to create object files of all scripts on the src folder and link them all together when building the main executable. This includes the SDL2 library linking also.
 
-> **WARNING!** When including different SDL lib components, there may be the necessity of adding elements to these variables:  
+> **WARNING!** When including different SDL lib components, it may be necessary to add elements to these variables:  
 `INCLUDE_DIRS = /usr/include/SDL2`  
 `LIBRARIES = SDL2 SDL2_image SDL2_mixer SDL2_ttf`
 
