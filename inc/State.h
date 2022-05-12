@@ -3,6 +3,10 @@
 
 #include "Sprite.h"
 #include "Music.h"
+#include "GameObject.h"
+
+#include <vector>
+#include <memory>
 
 class State {
   private:
@@ -10,6 +14,11 @@ class State {
     Sprite bg;
     Music music;
     bool quitRequested;
+    std::vector<std::unique_ptr<GameObject>> objectArray;
+
+    /* Metodos privados */
+    void Input();
+    void AddObject(int mouseX, int mouseY);
 
   public:
     /* Metodos publicos */
@@ -20,6 +29,8 @@ class State {
 
     /* Construtor */
     State();
+    /* Destrutor */
+    ~State();
 };
 
 #endif
