@@ -5,6 +5,8 @@
 #include "../inc/Game.h"
 
 #include <stdexcept>
+#include <cstdlib>
+#include <ctime>
 
 /* Para funcao Mix_OpenAudio */
 #define MIX_DEFAULT_CHUNKSIZE 1024
@@ -28,6 +30,9 @@ Game::Game(std::string title, int width, int height)
     throw std::runtime_error("Game being initialized multiple times!");
   else
     instance = this;
+  
+  /* Inicializa seed do rand */
+  srand(time(NULL));
 
   /* Inicializando biblioteca SLD e auxiliares */
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER))
@@ -52,6 +57,8 @@ Game::Game(std::string title, int width, int height)
     SDL_Log("Unable to initialize audio: %s\n", Mix_GetError());
     exit(1);
   }
+  /* Aloca canais de audio */
+  Mix_AllocateChannels(32); /* Nao falha */
 
   /* Criando janela */
   this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
