@@ -9,9 +9,10 @@ class Vec2
   float x, y;
 
   /* Metodos publicos */
-  double magnitude();
-  Vec2 normal_vector();
-  double distance(Vec2& vec);
+  double Mag();
+  Vec2 Norm();
+  double Distance(Vec2& vec);
+  Vec2 Rotate(double angle);
 
   /* Construtores */
   Vec2();

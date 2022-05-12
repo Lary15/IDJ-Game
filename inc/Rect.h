@@ -12,9 +12,9 @@ class Rect
     float x, y, w, h;
 
     /* Metodos publicos */
-    Vec2 center();
-    double distance(Rect& rec);
-    bool inside(Vec2& point);
+    Vec2 Center();
+    double Distance(Rect& rec);
+    bool Contains(const Vec2& point);
 
     /* Construtores */
     Rect();

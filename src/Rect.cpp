@@ -29,7 +29,7 @@ Rect Rect::operator+ (const Vec2& vec) {
 }
 
 /* Retorna coodernadas do centro de um retangulo */
-Vec2 Rect::center() {
+Vec2 Rect::Center() {
   Vec2 center;
 
   center.x = this->w/2 + this->x;
@@ -39,16 +39,16 @@ Vec2 Rect::center() {
 }
 
 /* Retorna distancia entre os centros de dois Rects */
-double Rect::distance(Rect& rec) {
+double Rect::Distance(Rect& rec) {
   Vec2 center1, center2;
 
-  center1 = this->center();
-  center2 = rec.center();
+  center1 = this->Center();
+  center2 = rec.Center();
 
-  return center1.distance(center2);
+  return center1.Distance(center2);
 }
 
 /* Verifica se ponto esta dentro do Rect */
-bool Rect::inside(Vec2& point) {
+bool Rect::Contains(const Vec2& point) {
   return (point.x >= this->x && point.x <= this->x+this->w) && (point.y >= this->y && point.y <= this->y+this->h);
 }

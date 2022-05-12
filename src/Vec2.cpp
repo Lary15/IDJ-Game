@@ -57,14 +57,14 @@ Vec2 Vec2::operator*(const int& scalar) {
 }
 
 /* Calcula magnitude do vetor */
-double Vec2::magnitude() {
+double Vec2::Mag() {
   return sqrt(this->x*this->x + this->y*this->y);
 }
 
 /* Retorna um vetor normalizado */
-Vec2 Vec2::normal_vector() {
+Vec2 Vec2::Norm() {
   Vec2 tmp;
-  double mag = this->magnitude();
+  double mag = this->Mag();
 
   tmp.x = this->x/mag;
   tmp.y = this->y/mag;
@@ -73,8 +73,14 @@ Vec2 Vec2::normal_vector() {
 }
 
 /* Calcula distancia entre ponto A e B, sendo argumento vec o ponto B */
-double Vec2::distance(Vec2& vec) {
+double Vec2::Distance(Vec2& vec) {
   Vec2 tmp;
   tmp = *this - vec;
-  return tmp.magnitude();
+  return tmp.Mag();
+}
+
+/* Rotaciona vetor de acordo com certo angulo (em radianos) */
+Vec2 Vec2::Rotate(double angle) {
+  double cos = std::cos(angle), sin = std::sin(angle);
+  return Vec2(this->x*cos - this->y*sin, this->x*sin + this->y*cos);
 }
