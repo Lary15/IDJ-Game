@@ -60,12 +60,17 @@ void Sprite::Update(float dt)
 {
 }
 
-void Sprite::Render()
+/* Render com argumento de coordenadas x e y */
+void Sprite::Render(int x, int y)
 {
-  SDL_Rect dstRect = {(int) this->associated.box.x, (int) this->associated.box.y, this->clipRect.w, this->clipRect.h};
+  SDL_Rect dstRect = {x, y, this->clipRect.w, this->clipRect.h};
 
   if(SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &(this->clipRect), &dstRect))
     SDL_Log("Unable to render copy: %s\n", SDL_GetError());
+}
+
+void Sprite::Render() {
+  this->Render((int) this->associated.box.x, (int) this->associated.box.y);
 }
 
 bool Sprite::Is(std::string type) {

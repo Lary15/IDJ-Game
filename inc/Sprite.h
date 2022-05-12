@@ -19,6 +19,7 @@ class Sprite : public Component {
   public:
     /* Metodos publicos */
     void Render();
+    void Render(int x, int y);
     void Update(float dt);
     bool Is(std::string type);
 
