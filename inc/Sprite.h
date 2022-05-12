@@ -4,10 +4,11 @@
 #define INCLUDE_SDL
 
 #include "SDL_include.h"
+#include "Component.h"
 
 #include <string>
 
-class Sprite {
+class Sprite : public Component {
   private:
     /* Atributos privados */
     SDL_Texture* texture;
@@ -17,16 +18,19 @@ class Sprite {
 
   public:
     /* Metodos publicos */
+    void Render();
+    void Update(float dt);
+    bool Is(std::string type);
+
     void Open(std::string file);
     void SetClip(int x, int y, int w, int h);
-    void Render(int x, int y);
     int GetWidth();
     int GetHeight();
     bool IsOpen();
 
     /* Construtores */
-    Sprite();
-    Sprite(std::string file);
+    Sprite(GameObject& associated);
+    Sprite(GameObject& associated, std::string file);
 
     /* Destrutor */
     ~Sprite();

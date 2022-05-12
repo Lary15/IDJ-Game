@@ -5,15 +5,14 @@
 #include "../inc/Game.h"
 
 /* Construtor sem parametro */
-Sprite::Sprite()
+Sprite::Sprite(GameObject& associated) : Component(associated)
 {
   this->texture = nullptr;
 }
 
 /* Construtor com parametro file */
-Sprite::Sprite(std::string file)
+Sprite::Sprite(GameObject& associated, std::string file) : Sprite(associated)
 {
-  this->texture = nullptr;
   this->Open(file);
 }
 
@@ -43,6 +42,10 @@ void Sprite::Open(std::string file)
 
   /* Seta clip da imagem */
   this->SetClip(0, 0, this->width, this->height);
+
+  /* Guarda valores de altura e largura na box do GameObject */
+  this->associated.box.w = this->width;
+  this->associated.box.h = this->height;
 }
 
 void Sprite::SetClip(int x, int y, int w, int h)
@@ -53,12 +56,20 @@ void Sprite::SetClip(int x, int y, int w, int h)
   this->clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y)
+void Sprite::Update(float dt)
 {
-  SDL_Rect dstRect = {x, y, this->clipRect.w, this->clipRect.h};
+}
+
+void Sprite::Render()
+{
+  SDL_Rect dstRect = {(int) this->associated.box.x, (int) this->associated.box.y, this->clipRect.w, this->clipRect.h};
 
   if(SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &(this->clipRect), &dstRect))
     SDL_Log("Unable to render copy: %s\n", SDL_GetError());
+}
+
+bool Sprite::Is(std::string type) {
+  return type == "Sprite";
 }
 
 /* Width Getter */
