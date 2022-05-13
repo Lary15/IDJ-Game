@@ -20,7 +20,7 @@ Game* Game::instance;
 Game& Game::GetInstance()
 {
   if (instance == nullptr)
-    instance = new Game("Larissa - 180021702", 1024, 600);
+    instance = new Game("Larissa - 180021702", SCREEN_WIDTH, SCREEN_HEIGHT);
 
   return *instance;
 }
@@ -80,6 +80,10 @@ Game::Game(std::string title, int width, int height)
 
   /* Inicializa State */
   this->state = new State();
+
+  /* Inicializa atributos*/
+  this->frameStart = SDL_GetTicks();
+  this->dt = 0.0;
 }
 
 /* Destrutor */
@@ -115,8 +119,11 @@ void Game::Run()
   /* Os objetos sao desenhados na tela */
   while (!this->state->QuitRequested())
   {
-    InputManager::GetInstance().Update(); /* checa por inputs ante da atualizacao do estado */
-    this->state->Update(0); /* parametro 0 e arbitrario e sera desconsiderado por enquanto */
+    this->CalculateDeltaTime();
+    /* checa por inputs ante da atualizacao do estado */
+    InputManager::GetInstance().Update();
+
+    this->state->Update(this->dt);
     this->state->Render();
     /* Forca renderizacao */
     SDL_RenderPresent(this->renderer);
@@ -128,4 +135,18 @@ void Game::Run()
   Resources::ClearImages();
   Resources::ClearMusics();
   Resources::ClearSounds();
+}
+
+void Game::CalculateDeltaTime() {
+  int frameEnd = (int) SDL_GetTicks();
+  /* Calcula diferenca de tempo entre frames */
+  this->dt = frameEnd - this->frameStart;
+  /* Converte para segundos */
+  this->dt /= 1000;
+  /* Atualiza valor de inicio do frame */
+  this->frameStart = frameEnd;
+}
+
+float Game::GetDeltaTime() {
+  return this->dt;
 }

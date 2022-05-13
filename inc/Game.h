@@ -8,6 +8,9 @@
 
 #include <string>
 
+#define SCREEN_WIDTH  1024
+#define SCREEN_HEIGHT 600
+
 class Game {
   private:
     /* Atributos privados */
@@ -15,6 +18,12 @@ class Game {
     State* state;
     SDL_Window* window;
     SDL_Renderer* renderer;
+
+    int frameStart;
+    float dt;
+
+    /* Metodos Privados */
+    void CalculateDeltaTime();
 
     /* Construtor */
     Game(std::string title, int width, int height);
@@ -28,6 +37,8 @@ class Game {
     static Game& GetInstance();
     SDL_Renderer* GetRenderer();
     State& GetState();
+
+    float GetDeltaTime();
 };
 
 #endif
