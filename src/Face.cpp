@@ -1,5 +1,6 @@
 #include "../inc/Face.h"
 #include "../inc/Sound.h"
+#include "../inc/InputManager.h"
 
 #include <chrono>
 #include <thread>
@@ -28,7 +29,15 @@ void Face::Damage(int damage) {
 }
 
 void Face::Update(float dt) {
-
+  InputManager& input = InputManager::GetInstance();
+  /* Confere pressionamento de qualquer botao de mouse */
+  for (int i=0; i<6; i++) {
+    if (input.MousePress(i) && this->associated.box.Contains({ (float) input.GetMouseX(), (float) input.GetMouseY()})) {
+      this->Damage(std::rand() % 10 + 10);
+      // Sai do loop (só queremos acertar um)
+      break;
+    }
+  }
 }
 
 void Face::Render() {

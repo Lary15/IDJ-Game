@@ -4,6 +4,7 @@
 #include "../inc/SDL_include.h"
 #include "../inc/Game.h"
 #include "../inc/Resources.h"
+#include "../inc/InputManager.h"
 
 #include <stdexcept>
 #include <cstdlib>
@@ -114,6 +115,7 @@ void Game::Run()
   /* Os objetos sao desenhados na tela */
   while (!this->state->QuitRequested())
   {
+    InputManager::GetInstance().Update(); /* checa por inputs ante da atualizacao do estado */
     this->state->Update(0); /* parametro 0 e arbitrario e sera desconsiderado por enquanto */
     this->state->Render();
     /* Forca renderizacao */

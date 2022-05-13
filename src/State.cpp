@@ -5,6 +5,7 @@
 #include "../inc/Sound.h"
 #include "../inc/Face.h"
 #include "../inc/TileMap.h"
+#include "../inc/InputManager.h"
 
 #define PI 3.14159265
 
@@ -58,7 +59,15 @@ void State::LoadAssets()
 
 void State::Update(float dt)
 {
-  this->Input();
+  InputManager& input = InputManager::GetInstance();
+  /* Verifica se termino do jogo foi solicitado */
+  if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY)) 
+    this->quitRequested = true;
+  /* Cria novo objeto com pressionar da tecla espaco */
+  if (input.KeyPress(SPACE_KEY)) {
+    Vec2 objPos = Vec2(200, 0).Rotate(-PI + PI*(std::rand() % 1001)/500.0) + Vec2(input.GetMouseX(), input.GetMouseY());
+    this->AddObject((int) objPos.x, (int) objPos.y);
+  }
   
   for (unsigned int i=0; i<this->objectArray.size(); i++) {
     this->objectArray[i]->Update(dt);
@@ -101,57 +110,4 @@ void State::AddObject(int mouseX, int mouseY) {
 
   /* Insere GameObject no arrayObjects*/
   this->objectArray.emplace_back(penguin);
-}
-
-void State::Input() {
-	SDL_Event event;
-	int mouseX, mouseY;
-
-	// Obtenha as coordenadas do mouse
-	SDL_GetMouseState(&mouseX, &mouseY);
-
-	// SDL_PollEvent retorna 1 se encontrar eventos, zero caso contrário
-	while (SDL_PollEvent(&event)) {
-
-		// Se o evento for quit, setar a flag para terminação
-		if(event.type == SDL_QUIT) {
-			quitRequested = true;
-		}
-		
-		// Se o evento for clique...
-		if(event.type == SDL_MOUSEBUTTONDOWN) {
-
-			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
-			for(int i = objectArray.size() - 1; i >= 0; --i) {
-				// Obtem o ponteiro e casta pra Face.
-				GameObject* go = (GameObject*) objectArray[i].get();
-				// Nota: Desencapsular o ponteiro é algo que devemos evitar ao máximo.
-				// O propósito do unique_ptr é manter apenas uma cópia daquele ponteiro,
-				// ao usar get(), violamos esse princípio e estamos menos seguros.
-				// Esse código, assim como a classe Face, é provisório. Futuramente, para
-				// chamar funções de GameObjects, use objectArray[i]->função() direto.
-
-				if (go->box.Contains({ (float)mouseX, (float)mouseY})) {
-					Face* face = (Face*) go->GetComponent("Face");
-					if ( nullptr != face ) {
-						// Aplica dano
-						face->Damage(std::rand() % 10 + 10);
-						// Sai do loop (só queremos acertar um)
-						break;
-					}
-				}
-			}
-		}
-		if ( event.type == SDL_KEYDOWN ) {
-			// Se a tecla for ESC, setar a flag de quit
-			if( event.key.keysym.sym == SDLK_ESCAPE ) {
-				quitRequested = true;
-			}
-			// Se não, crie um objeto
-			else {
-				Vec2 objPos = Vec2(200, 0).Rotate(-PI + PI*(std::rand() % 1001)/500.0) + Vec2(mouseX, mouseY);
-				this->AddObject((int) objPos.x, (int) objPos.y);
-			}
-		}
-	}
 }
