@@ -2,6 +2,8 @@
 
 TileSet::TileSet(int tileWidth, int tileHeight, std::string file) : tileSet(*new GameObject, file) {
   if (this->tileSet.IsOpen()) {
+    this->tileHeight = tileHeight;
+    this->tileWidth = tileWidth;
     /* Calcula quantidade de linhas e colunas no tileSet */
     this->rows = this->tileSet.GetHeight() / tileHeight;
     this->columns = this->tileSet.GetWidth() / tileWidth;
