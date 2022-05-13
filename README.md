@@ -1,3 +1,17 @@
+
+> **!! Nota referente ao Trabalho 4 !!**
+<br>Implementação do Trabalho 4 ficou incompleta.
+
+Segue lista do que foi ou não implementado:
+
+- [X] Implementada classe InputManager
+- [X] Implementadas mudanças em outras classes para uso do InputManager 
+- [X] Adicionado cálculo de temporização à classe Game
+- [X] Implementada classe Camera
+- [ ] Implementadas mudanças em outras classes para uso da Camera (parcial)
+- [X] Implementada classe CameraFollower
+
+
 # File structure
 
 ```
