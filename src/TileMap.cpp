@@ -2,6 +2,7 @@
 
 #define INCLUDE_SDL
 #include "../inc/SDL_include.h"
+#include "../inc/Camera.h"
 
 #include <fstream>
 #include <sstream>
@@ -67,7 +68,7 @@ int& TileMap::At(int x, int y, int z) {
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
   for (int x=0; x<this->mapWidth; x++) {
     for (int y=0; y<this->mapHeight; y++) {
-      this->tileSet->RenderTile(this->At(x, y, layer), x*this->tileSet->GetTileWidth(), y*this->tileSet->GetTileHeight());
+      this->tileSet->RenderTile(this->At(x, y, layer), x*this->tileSet->GetTileWidth() - cameraX, y*this->tileSet->GetTileHeight() - cameraY);
     }
   }
 }
@@ -78,7 +79,7 @@ void TileMap::Update(float dt) {
 
 void TileMap::Render() {
   for (int i=0; i<this->mapDepth; i++) {
-    this->RenderLayer(i, this->associated.box.x, this->associated.box.y);
+    this->RenderLayer(i, Camera::pos.x, Camera::pos.y);
   }
 }
 

@@ -6,6 +6,8 @@
 #include "../inc/Face.h"
 #include "../inc/TileMap.h"
 #include "../inc/InputManager.h"
+#include "../inc/Camera.h"
+#include "../inc/CameraFollower.h"
 
 #define PI 3.14159265
 
@@ -20,6 +22,7 @@ State::State() : bg(*new GameObject)
   /* Adiciona componente sprite */
   GameObject* background = new GameObject();
   background->AddComponent(&(this->bg));
+  background->AddComponent(new CameraFollower(*background));
   
   /* Atribui posicao */
   background->box.x = 0;
@@ -68,6 +71,9 @@ void State::Update(float dt)
     Vec2 objPos = Vec2(200, 0).Rotate(-PI + PI*(std::rand() % 1001)/500.0) + Vec2(input.GetMouseX(), input.GetMouseY());
     this->AddObject((int) objPos.x, (int) objPos.y);
   }
+
+  /* Atualiza camera*/
+  Camera::Update(dt);
   
   for (unsigned int i=0; i<this->objectArray.size(); i++) {
     this->objectArray[i]->Update(dt);
@@ -97,8 +103,8 @@ void State::AddObject(int mouseX, int mouseY) {
   penguin->AddComponent(sprite);
 
   /* Atribui posicao da box */
-  penguin->box.x = mouseX + penguin->box.w/2;
-  penguin->box.y = mouseY + penguin->box.h/2;
+  penguin->box.x = mouseX - penguin->box.w/2 - Camera::pos.x;
+  penguin->box.y = mouseY - penguin->box.h/2 - Camera::pos.y;
   
   /*Cria e adiciona componente sound */
   Sound* sound = new Sound(*penguin, "assets/audio/boom.wav");

@@ -1,6 +1,7 @@
 #include "../inc/Face.h"
 #include "../inc/Sound.h"
 #include "../inc/InputManager.h"
+#include "../inc/Camera.h"
 
 #include <chrono>
 #include <thread>
@@ -41,7 +42,6 @@ void Face::Update(float dt) {
 }
 
 void Face::Render() {
-  
 }
 
 bool Face::Is(std::string type) {
