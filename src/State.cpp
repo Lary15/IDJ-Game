@@ -4,8 +4,12 @@
 #include "../inc/State.h"
 #include "../inc/Sound.h"
 #include "../inc/Face.h"
+#include "../inc/TileMap.h"
 
 #define PI 3.14159265
+
+#define TILE_WIDTH  64
+#define TILE_HEIGHT 64
 
 /* Construtor */
 State::State() : bg(*new GameObject)
@@ -22,6 +26,19 @@ State::State() : bg(*new GameObject)
 
   /* Insere GameObject no arrayObjects */
   this->objectArray.emplace_back(background);
+
+  /* Cria e adiciona TileMap */
+  GameObject* map = new GameObject();
+  TileSet* tileSet = new TileSet(TILE_WIDTH, TILE_HEIGHT, "assets/img/tileset.png");
+  TileMap* tileMap = new TileMap(*map, "assets/map/tileMap.txt", tileSet);
+  map->AddComponent(tileMap);
+
+  /* Atribui posicao */
+  map->box.x = 0;
+  map->box.y = 0;
+
+  /* Insere GameObject no arrayObjects */
+  this->objectArray.emplace_back(map);
 
   /* Instanciar Sprite e Music */
   this->LoadAssets();

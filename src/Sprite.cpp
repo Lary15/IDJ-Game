@@ -3,6 +3,7 @@
 #include "../inc/SDL_include.h"
 #include "../inc/Sprite.h"
 #include "../inc/Game.h"
+#include "../inc/Resources.h"
 
 /* Construtor sem parametro */
 Sprite::Sprite(GameObject& associated) : Component(associated)
@@ -19,22 +20,12 @@ Sprite::Sprite(GameObject& associated, std::string file) : Sprite(associated)
 /* Destrutor */
 Sprite::~Sprite()
 {
-  if (this->texture != nullptr)
-    SDL_DestroyTexture(this->texture);
 }
 
 void Sprite::Open(std::string file)
 {
-  /* Desaloca imagem caso exista */
-  if (this->texture != nullptr)
-    SDL_DestroyTexture(this->texture);
-
   /* Carrega nova imagem */
-  this->texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
-
-  /* Trata possivel erro de carregamento */
-  if (this->texture == nullptr)
-    SDL_Log("Unable to load texture: %s\n", IMG_GetError());
+  this->texture = Resources::GetImage(file);
 
   /* Descobrindo dimensoes da imagem */
   if (SDL_QueryTexture(this->texture, nullptr, nullptr, &(this->width), &(this->height)))

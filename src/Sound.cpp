@@ -1,4 +1,5 @@
 #include "../inc/Sound.h"
+#include "../inc/Resources.h"
 
 #define DEFAULT_CHANNEL -1
 
@@ -17,17 +18,14 @@ Sound::Sound(GameObject& associated, std::string file) : Sound(associated)
 /* Destrutor */
 Sound::~Sound()
 {
-  if (this->chunk) {
-    this->Stop();
-    Mix_FreeChunk(this->chunk);
-  }
+  this->Stop();
 }
 
 void Sound::Play(int times) {
   this->channel = Mix_PlayChannel(DEFAULT_CHANNEL, this->chunk, times-1);
 
   if (this->channel == -1)
-    SDL_Log("Unable to play music: %s\n", Mix_GetError());
+    SDL_Log("Unable to play sound: %s\n", Mix_GetError());
 }
 
 void Sound::Stop() {
@@ -38,10 +36,7 @@ void Sound::Stop() {
 }
 
 void Sound::Open(std::string file) {
-  this->chunk = Mix_LoadWAV(file.c_str());
-
-  if (!this->chunk)
-    SDL_Log("Unable to play music: %s\n", Mix_GetError());
+  this->chunk = Resources::GetSound(file);
 }
 
 void Sound::Update(float dt) {

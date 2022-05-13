@@ -2,6 +2,7 @@
 
 #include "../inc/SDL_include.h"
 #include "../inc/Music.h"
+#include "../inc/Resources.h"
 
 /* Construtor sem parametro */
 Music::Music()
@@ -21,8 +22,6 @@ Music::~Music()
 {
   /* Chama stop */
   this->Stop();
-  /* Libera musica da memoria */
-  Mix_FreeMusic(this->music);
 }
 
 void Music::Play(int times)
@@ -39,10 +38,7 @@ void Music::Stop(int msToStop)
 
 void Music::Open(std::string file)
 {
-  this->music = Mix_LoadMUS(file.c_str());
-
-  if (this->music == nullptr)
-    SDL_Log("Unable to load music: %s\n", Mix_GetError());
+  this->music = Resources::GetMusic(file);
 }
 
 bool Music::IsOpen()

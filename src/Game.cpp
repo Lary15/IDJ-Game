@@ -3,6 +3,7 @@
 
 #include "../inc/SDL_include.h"
 #include "../inc/Game.h"
+#include "../inc/Resources.h"
 
 #include <stdexcept>
 #include <cstdlib>
@@ -120,4 +121,9 @@ void Game::Run()
     /* Forca frame rate */
     SDL_Delay(33);
   }
+
+  /* Libera recursos */
+  Resources::ClearImages();
+  Resources::ClearMusics();
+  Resources::ClearSounds();
 }
