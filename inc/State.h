@@ -17,7 +17,6 @@ class State {
     std::vector<std::unique_ptr<GameObject>> objectArray;
 
     /* Metodos privados */
-    void Input();
     void AddObject(int mouseX, int mouseY);
 
   public:
